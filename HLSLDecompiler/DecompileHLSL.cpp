@@ -6770,7 +6770,7 @@ public:
 	}
 };
 
-const string DecompileBinaryHLSL(ParseParameters &params, bool &patched, std::string &shaderModel, bool &errorOccurred)
+const string DecompileBinaryHLSL(ParseParameters &params, bool &patched, std::string &shaderModel, bool &errorOccurred, bool includeCreatedBy)
 {
 	Decompiler d;
 
@@ -6822,8 +6822,9 @@ const string DecompileBinaryHLSL(ParseParameters &params, bool &patched, std::st
 			d.WriteZeroOutputSignature(params.decompiled, params.decompiledSize);
 		}
 		d.mOutput.push_back('}');
-		d.WriteHeaderDeclarations();
-
+		if (includeCreatedBy) {
+			d.WriteHeaderDeclarations();
+		}
 		shaderModel = d.mShaderType;
 		errorOccurred = d.mErrorOccurred;
 		FreeShaderInfo(shader->sInfo);

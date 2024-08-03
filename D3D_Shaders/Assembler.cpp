@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "float.h"
-
-#if MIGOTO_DX == 9
-#include <d3dx9shader.h>
-#endif
+#include <stdexcept>
 
 using namespace std;
 
@@ -3341,23 +3338,3 @@ vector<byte> assembler(vector<char> *asmFile, vector<byte> origBytecode,
 	dwordBuffer[4] = hash[3];
 	return origBytecode;
 }
-#if MIGOTO_DX == 9
-vector<byte> assemblerDX9(vector<char> *asmFile)
-{
-	vector<byte> ret;
-	LPD3DXBUFFER pAssembly;
-	HRESULT hr = D3DXAssembleShader(asmFile->data(), (UINT)asmFile->size(), NULL, NULL, 0, &pAssembly, NULL);
-	if (!FAILED(hr)) {
-		size_t size = pAssembly->GetBufferSize();
-		LPVOID buffer = pAssembly->GetBufferPointer();
-		ret.resize(size);
-		std::memcpy(ret.data(), buffer, size);
-		pAssembly->Release();
-		// FIXME: Pass warnings back to the caller
-	} else {
-		// FIXME: Pass error messages back to the caller
-		throw std::invalid_argument("assembler: Bad shader assembly (FIXME: RETURN ERROR MESSAGES)");
-	}
-	return ret;
-}
-#endif

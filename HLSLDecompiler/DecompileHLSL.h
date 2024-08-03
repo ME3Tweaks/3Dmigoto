@@ -57,4 +57,4 @@ struct ParseParameters
 	DecompilerSettings *G;
 };
 
-const std::string DecompileBinaryHLSL(ParseParameters &params, bool &patched, std::string &shaderModel, bool &errorOccurred);
+const std::string DecompileBinaryHLSL(ParseParameters &params, bool &patched, std::string &shaderModel, bool &errorOccurred, bool includeCreatedBy);
